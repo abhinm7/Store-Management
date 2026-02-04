@@ -45,10 +45,40 @@ const getUsers = async (req, res) => {
 
     try {
         const users = await prisma.user.findMany({
-            where,
-            select: { id: true, name: true, email: true, address: true, role: true }
+            where, include: {
+                stores: {
+                    include: { ratings: true }
+                }
+            }
         });
-        res.json(users);
+        // formating users for getting average rating
+        const formattedUsers = users.map(user => {
+            let ownerRating = null;
+
+            if (user.stores.length > 0) {
+                let totalStars = 0;
+                let totalCount = 0;
+
+                user.stores.forEach(store => {
+                    store.ratings.forEach(r => {
+                        totalStars += r.value;
+                        totalCount++;
+                    });
+                });
+                ownerRating = totalCount > 0 ? (totalStars / totalCount).toFixed(1) : 'No Ratings';
+            }
+
+            return {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                address: user.address,
+                role: user.role,
+                rating: ownerRating
+            };
+        })
+        res.json(formattedUsers);
+
     } catch (err) {
         res.status(500).json({ error: "Failed to fetch users" });
     }
@@ -95,8 +125,16 @@ const addStore = async (req, res) => {
 };
 
 const getStores = async (req, res) => {
+    const { name, email, address } = req.query;
+
+    const where = {};
+    if (name) where.name = { contains: name, mode: 'insensitive' };
+    if (email) where.email = { contains: email, mode: 'insensitive' };
+    if (address) where.address = { contains: address, mode: 'insensitive' };
+
     try {
         const stores = await prisma.store.findMany({
+            where,
             include: {
                 ratings: true // Fetch ratings to calculate average
             }
@@ -106,7 +144,7 @@ const getStores = async (req, res) => {
         const formattedStores = stores.map(store => {
             const total = store.ratings.reduce((sum, r) => sum + r.value, 0);
             const avg = store.ratings.length > 0 ? (total / store.ratings.length).toFixed(1) : 0;
-            
+
             return {
                 id: store.id,
                 name: store.name,

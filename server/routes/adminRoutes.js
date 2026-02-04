@@ -1,11 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { protect, authorize } = require('../middlewares/authMiddleware');
-const { getDashboardStats, addUser, getUsers, addStore, getStores } = require('../controllers/adminController');
 
+const { protect, authorize } = require('../middlewares/authMiddleware');
+const { addUser, getUsers } = require('../controllers/userController');
+const { addStore, getStores } = require('../controllers/storeController');
+const { getDashboardStats } = require('../controllers/adminController');
+
+// verify login and authorze role
 router.use(protect);
 router.use(authorize('SYSTEM_ADMIN'));
 
+// get dasboard stats
 router.get('/dashboard', getDashboardStats);
 
 // get user details

@@ -30,9 +30,16 @@ const signup = async (req, res) => {
             }
         });
 
+        const token = jwt.sign(
+            { id: newUser.id, role: 'NORMAL' },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
         res.status(201).json({
             message: 'User registered successfully',
-            user: { id: newUser.id, email: newUser.email }
+            user: { id: newUser.id, email: newUser.email },
+            token
         });
 
     } catch (err) {

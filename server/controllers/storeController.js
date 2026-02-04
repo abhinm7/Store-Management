@@ -77,7 +77,53 @@ const getStores = async (req, res) => {
 };
 
 const submitRating = async (req, res) => {
+    const { storeId, value } = req.body;
+    const user = req.user.id;
+    if (value < 1 || value > 5) {
+        res.status(400).json({ error: "Rating must be between 1 and 5" });
+    }
+    
+    try {
+        // check if  the store exists
+        const store = await prisma.store.findUnique({
+            where: {
+                id: Number(storeId)
+            }
+        })
+        if (!store) {
+            res.status(404).json({ error: 'store not found' });
+        }
+        
+        // update the rating if exists
+        const existingRating = await prisma.rating.findFirst({
+            where: {
+                userId: user,
+                storeId: Number(storeId)
+            }
+        });
+        if (existingRating) {
+            const updatedRating = await prisma.rating.update({
+                where: { id: existingRating.id },
+                data: { value:Number(value) }
+            });
+            return res.json({ message: "Rating updated", rating: updatedRating });
+        }
 
-}
+        // add rating
+        const newRating = await prisma.rating.create({
+            data: {
+                value:Number(value),
+                userId: user,
+                storeId: Number(storeId)
+            }
+        })
+
+        res.status(201).json({ message: "Rating added", rating: newRating });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to submit rating" });
+    }
+};
 
 module.exports = { addStore, getStores, submitRating };

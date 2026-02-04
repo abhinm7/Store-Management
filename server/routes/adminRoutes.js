@@ -14,12 +14,12 @@ router.use(authorize('SYSTEM_ADMIN'));
 router.get('/dashboard-stats', getDashboardStats);
 
 // get user details
-router.post('/add-user', addUser);
-router.get('/get-users', getUsers);
+router.post('/user', addUser);
+router.get('/users', getUsers);
 
 // get store details
-router.post('/add-store', addStore);
-router.get('/get-stores', getStores);
+router.post('/store', addStore);
+router.get('/stores', getStores);
 
 
 module.exports = router;

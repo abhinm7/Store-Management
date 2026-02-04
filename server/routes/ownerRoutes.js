@@ -9,9 +9,6 @@ const { getOwnerDashboard } = require('../controllers/dashboardController');
 router.use(protect);
 router.use(authorize('STORE_OWNER'));
 
-// get users details
-router.get('/get-users', getUsers);
-
 // get dashboard
 router.get('/dashboard', getOwnerDashboard);
 

@@ -8,6 +8,6 @@ router.post('/login', login);
 router.post('/signup', signup);
 
 // change password
-router.post('/update-password', protect, authorize('STORE_OWNER', 'NORMAL'), changePassword);
+router.post('/update-password', protect, changePassword);
 
 module.exports = router;

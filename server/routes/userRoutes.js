@@ -9,7 +9,7 @@ router.use(protect);
 router.use(authorize('NORMAL'));
 
 // get store details
-router.get('/get-stores', getStores);
+router.get('/stores', getStores);
 
 // submit rating
 router.post('/submit-rating', submitRating);

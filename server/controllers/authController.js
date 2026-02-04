@@ -38,7 +38,7 @@ const signup = async (req, res) => {
 
         res.status(201).json({
             message: 'User registered successfully',
-            user: { id: newUser.id, email: newUser.email },
+            user: { id: newUser.id, email: newUser.email, role: newUser.role },
             token
         });
 
@@ -73,9 +73,9 @@ const login = async (req, res) => {
         );
 
         res.json({
-            token,
-            role: user.role,
-            name: user.name
+            message:'login successful',
+            user: { id: user.id, email: user.email, role: user.role },
+            token
         });
     } catch (error) {
         console.error(error);

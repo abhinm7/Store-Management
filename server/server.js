@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
-
+const adminRoutes = require('./routes/adminRoutes');
 const app = express();
 
 app.use(cors());
@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
+app.use('/admin',adminRoutes);
 
 const PORT = process.env.PORT;
 

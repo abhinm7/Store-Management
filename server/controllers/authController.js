@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const prisma = require('../../prisma/client');
+const prisma = require('../prisma/client');
 
 const signup = async (req, res) => {
     const { email, password, name, address } = req.body;
@@ -36,7 +36,7 @@ const signup = async (req, res) => {
         });
 
     } catch (err) {
-        console.error(error);
+        console.error(err);
         res.status(500).json({ error: 'Internal server error' });
     }
 }
@@ -74,8 +74,6 @@ const login = async (req, res) => {
         console.error(error);
         res.json({ error: 'internal server error', status: 500 });
     }
-
-
 }
 
 module.exports = { login, signup };

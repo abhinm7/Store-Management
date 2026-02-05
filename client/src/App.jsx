@@ -1,15 +1,18 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Auth/Login";
+import { Toaster } from "react-hot-toast";
 import { ProtectedRoute, PublicRoute } from "./components/RouterGuards";
+
 import Signup from "./pages/Auth/Signup";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import DashboardHome from "./pages/Admin/Dashboard";
 import Users from "./pages/Admin/Users";
 import Stores from "./pages/Admin/Store";
 import ChangePassword from "./pages/Auth/ChangePassword";
-import { Toaster } from "react-hot-toast";
 import UserLayout from "./pages/User/UserLayout";
 import UserDashboard from "./pages/User/UserDashboard";
+import OwnerDashboard from "./pages/Owner/OwnerDashboard";
+import OwnerLayout from "./pages/Owner/OwnerLayout";
 
 function App() {
   return (
@@ -33,15 +36,14 @@ function App() {
 
         {/* OWNER Routes */}
         <Route element={<ProtectedRoute allowedRoles={["STORE_OWNER"]} />}>
-          <Route path="/owner/*" element={<h1>Owner Dashboard Loaded</h1>} />
+          <Route path="/owner" element={<OwnerLayout />}>
+            <Route path="dashboard" element={<OwnerDashboard />} />
+            <Route path="password" element={<ChangePassword />} />
+          </Route>
         </Route>
 
         {/* USER Routes */}
-        <Route
-          element={
-            <ProtectedRoute allowedRoles={["NORMAL"]} />
-          }
-        >
+        <Route element={<ProtectedRoute allowedRoles={["NORMAL"]} />}>
           <Route path="/user" element={<UserLayout />}>
             <Route path="dashboard" element={<UserDashboard />} />
             <Route path="password" element={<ChangePassword />} />

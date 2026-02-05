@@ -11,7 +11,7 @@ const addUser = async (req, res) => {
                 email,
                 password: hashedPassword,
                 address,
-                role: role || 'NORMAL_USER'
+                role: role || 'NORMAL'
             }
         });
         res.status(201).json({ message: "User added", user: newUser });

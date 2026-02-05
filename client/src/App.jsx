@@ -8,6 +8,8 @@ import Users from "./pages/Admin/Users";
 import Stores from "./pages/Admin/Store";
 import ChangePassword from "./pages/Auth/ChangePassword";
 import { Toaster } from "react-hot-toast";
+import UserLayout from "./pages/User/UserLayout";
+import UserDashboard from "./pages/User/UserDashboard";
 
 function App() {
   return (
@@ -36,9 +38,14 @@ function App() {
 
         {/* USER Routes */}
         <Route
-          element={<ProtectedRoute allowedRoles={["NORMAL", "SYSTEM_ADMIN"]} />}
+          element={
+            <ProtectedRoute allowedRoles={["NORMAL"]} />
+          }
         >
-          <Route path="/user/*" element={<h1>User Dashboard Loaded</h1>} />
+          <Route path="/user" element={<UserLayout />}>
+            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="password" element={<ChangePassword />} />
+          </Route>
         </Route>
       </Routes>
     </>

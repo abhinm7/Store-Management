@@ -70,7 +70,6 @@ const Login = () => {
                         </Link>
                     </p>
                 </div>
-      <Toaster />
     </div>
   );
 };

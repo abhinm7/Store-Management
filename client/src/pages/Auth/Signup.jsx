@@ -119,7 +119,6 @@ const Signup = () => {
           </p>
         </div>
       </form>
-      <Toaster />
     </div>
   );
 };

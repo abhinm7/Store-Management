@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/axiosinstances";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");

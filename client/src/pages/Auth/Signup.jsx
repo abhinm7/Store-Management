@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../api/axiosinstances";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const [formData, setFormData] = useState({

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import api from '../../api/axiosInstances';
+import api from '../../api/axiosinstances';
 import { toast } from 'react-hot-toast';
 
 const ChangePassword = () => {
